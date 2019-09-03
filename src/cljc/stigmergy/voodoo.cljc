@@ -2,57 +2,28 @@
   (:import [org.apache.commons.codec.binary Hex]
            [org.apache.commons.codec.digest DigestUtils]))
 
-(defn toBytes [block]
-  (cond
-    (sequential? block) (byte-array block)
-    (bytes? block) block
-    :else [block]))
+(defonce type->size {:byte 1
+                     :byte* 0
 
-(defn bytes->int [block]
-  (.. (BigInteger. (toBytes block))
-      intValue)
-  #_(let []
-      (+  (bit-shift-left (nth bytes 0) 24)
-          (bit-shift-left (nth  bytes 1) 16)
-          (bit-shift-left (nth  bytes 2) 8)
-          (bit-shift-left (nth  bytes 3) 0))))
+                     :boolean 1
+                     :boolean* 0
+                     
+                     :char 1
+                     :char* 0
+                     
+                     :int16 2
+                     :int16* 0
+                     
+                     :int32 4
+                     :int32* 0})
 
-(defn bytes->oct [block]
-  (.. (BigInteger. (toBytes block))
-      (toString 8)))
-
-(defn bytes->char [block]
-  (map #(char %) block))
-
-(defn bytes->str [block]
-  (String. (toBytes block)))
-
-(defn bytes->hex [bytes]
-  (-> bytes toBytes Hex/encodeHexString))
-
-(defn hex-str->bytes [hex-str]
-  (Hex/decodeHex hex-str))
-
-(defn sha1-as-bytes [data]
-  (DigestUtils/sha1 data))
-
-(defn struct? [struct]
+(defn struct?
+  "A struct simulates a C struct with a vector. keywords are used for field names and field types. For example,
+  (struct? [:name [:char 10]
+            :age :int32])
+  "
+  [struct]
   (and (vector? struct) (> (count struct) 2 )))
-
-(def type->size {:byte 1
-                 :byte* 0
-
-                 :boolean 1
-                 :boolean* 0
-                 
-                 :char 1
-                 :char* 0
-                 
-                 :int16 2
-                 :int16* 0
-                 
-                 :int32 4
-                 :int32* 0})
 
 (defn sizeof [t] {:pre [(or (vector? t) (keyword? t))]}
   (cond
@@ -64,7 +35,9 @@
     :else (let [[seq-type count] t]
             (* (sizeof seq-type) count))))
 
-(defn struct-metadata [struct]
+(defn struct-metadata
+  "calculates size and offet of fields in the struct"
+  [struct]
   (let [field-type-pairs (partition 2 struct)
         field-type-size (map (fn [[field type]]
                                [field {:type type
@@ -82,12 +55,50 @@
                                                 field-type-size))]
     field-type-size-offset))
 
+(defn toBytes
+  "convert a seq into a byte-array"
+  [a-seq]
+  (cond
+    (sequential? a-seq) (byte-array a-seq)
+    (bytes? a-seq) a-seq
+    :else [a-seq]))
+
 (defn take-between [i j coll]
   (let [chunk (drop i coll)
         num (- j i)]
     (take num chunk)))
 
-(defn pointer [struct data]
+(defn bytes->int [a-seq]
+  (.. (BigInteger. (toBytes a-seq))
+      intValue)
+  #_(let []
+      (+  (bit-shift-left (nth bytes 0) 24)
+          (bit-shift-left (nth  bytes 1) 16)
+          (bit-shift-left (nth  bytes 2) 8)
+          (bit-shift-left (nth  bytes 3) 0))))
+
+(defn bytes->oct [a-seq]
+  (.. (BigInteger. (toBytes a-seq))
+      (toString 8)))
+
+(defn bytes->char [a-seq]
+  (map #(char %) a-seq))
+
+(defn bytes->str [a-seq]
+  (String. (toBytes a-seq)))
+
+(defn bytes->hex [a-seq]
+  (-> a-seq toBytes Hex/encodeHexString))
+
+(defn hex-str->bytes [hex-str]
+  (Hex/decodeHex hex-str))
+
+(defn sha1-as-bytes [a-seq]
+  (-> a-seq toBytes DigestUtils/sha1))
+
+(defn pointer
+  "returns a closure that simulates a C pointer given a struct and a seq of bytes"
+  [struct a-seq]
   (let [metadata (struct-metadata struct)
         offset (atom 0)]
     (fn [arg0 & args]
@@ -97,7 +108,7 @@
               field-offset (-> metadata field :offset)
               size (-> metadata field :size)]
           (if (= size 0)
-            (let [size (count data)]
+            (let [size (count a-seq)]
               (take-between (+ @offset field-offset) size data))
             (take-between (+ @offset field-offset) (+ @offset field-offset size) data)))
         (let [+or- arg0
