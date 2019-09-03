@@ -9,7 +9,8 @@
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled"
                                     :target-path]
-
+  :source-paths ["src/cljc"]
+  
   :profiles {:project/dev {:dependencies [[figwheel-sidecar "0.5.18"]
                                           [cider/piggieback "0.4.0"]
                                           [binaryage/devtools "0.9.10"]]
