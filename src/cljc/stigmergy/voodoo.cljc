@@ -109,8 +109,8 @@
               size (-> metadata field :size)]
           (if (= size 0)
             (let [size (count a-seq)]
-              (take-between (+ @offset field-offset) size data))
-            (take-between (+ @offset field-offset) (+ @offset field-offset size) data)))
+              (take-between (+ @offset field-offset) size a-seq))
+            (take-between (+ @offset field-offset) (+ @offset field-offset size) a-seq)))
         (let [+or- arg0
               next-offset (reduce + (map (fn [field-or-offset]
                                            (if (keyword? field-or-offset)
