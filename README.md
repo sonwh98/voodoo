@@ -8,4 +8,7 @@ Parsing binary bytes of data in Clojure/ClojureScript is a pain in the butt. Par
 
 ## Example
 
-https://github.com/sonwh98/clgit/blob/07121ed5fda130a487ea77d11995ab0ee45ca833/src/cljc/stigmergy/clgit.cljc#L93
+Here is an example parsing a git index file using voodoo
+https://github.com/sonwh98/clgit/blob/e64d8efaed1285b172b64f3ef0896e04179b5090/src/cljc/stigmergy/clgit.cljc#L93
+
+
