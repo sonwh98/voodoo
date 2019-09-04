@@ -25,13 +25,15 @@
   [struct]
   (and (vector? struct) (> (count struct) 2 )))
 
-(defn sizeof [t] {:pre [(or (vector? t) (keyword? t))]}
+(defn sizeof
+  "return number of bytes of a struct or a field"
+  [t] {:pre [(or (vector? t) (keyword? t))]}
   (cond
     (keyword? t) (type->size t)
     (struct? t) (let [field-type-pairs (partition 2 t)]
-                  (reduce + (map-indexed (fn [index [field type]]
-                                           (sizeof type))
-                                         field-type-pairs)))
+                  (reduce + (map (fn [[field type]]
+                                   (sizeof type))
+                                 field-type-pairs)))
     :else (let [[seq-type count] t]
             (* (sizeof seq-type) count))))
 
@@ -139,3 +141,8 @@
                      fp))
         path (java.nio.file.Paths/get root-dir (into-array (rest paths)))]
     (java.nio.file.Files/readAllBytes path)))
+
+(comment
+  (sizeof [:name :int32
+           :age :int32])
+  )
