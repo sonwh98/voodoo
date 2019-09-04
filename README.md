@@ -26,7 +26,7 @@ Compile and execute [writeStruct.c](https://github.com/sonwh98/voodoo/blob/maste
 % ./a.out
 ```
 
-This writes 3 structs into person.dat. The definition of the struct is
+This writes 3 structs into file person.dat. The definition of the struct is
 
 ```C
 struct person { 
