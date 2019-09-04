@@ -99,7 +99,18 @@
   (-> a-seq to-bytes DigestUtils/sha1))
 
 (defn pointer
-  "returns a closure that simulates a C pointer given a struct and a seq of bytes"
+  "returns a 'pointer' to the seq of bytes using a struct to define the structure of the seq of bytes.
+  For example, suppose the sequence of bytes of the following struct:
+  (let [person-struct [:id :int32
+                       :fname [:char 20]
+                       :lname [:byte 20]]
+       a-seq-of-bytes ...
+       person-pt (pointer person-struct a-seq-of-bytes)]
+  (person-pt :id) ;;bytes corresponding to the id
+  (person-pt :fname) ;;bytes corresponding to fname
+  (person-pt :lname) ;;bytes corresponding to lname
+  )  
+  "
   [struct a-seq]
   (let [metadata (struct-metadata struct)
         offset (atom 0)]
