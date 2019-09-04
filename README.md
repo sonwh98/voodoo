@@ -19,3 +19,42 @@ https://github.com/sonwh98/clgit/blob/master/parse_git_index.c
 Here is an example parsing a git index file in Clojure using voodoo
 https://github.com/sonwh98/clgit/blob/e64d8efaed1285b172b64f3ef0896e04179b5090/src/cljc/stigmergy/clgit.cljc#L93
 
+Compile and execute [writeStruct.c](https://github.com/sonwh98/voodoo/blob/master/src/c/writeStruct.c)
+
+```bash
+% gcc src/c/writeStruct.c
+% ./a.out
+```
+
+This generates person.dat which contains 3 C structs
+
+```C
+struct person { 
+  int id; 
+  char fname[20]; 
+  char lname[20]; 
+}; 
+```
+
+Parse person.dat 
+
+```Clojure
+(let [buffer (suck "./person.dat")
+        person-struct [:id :int32
+                       :fname [:byte 20]
+                       :lname [:byte 20]]
+        person-pt (pointer person-struct buffer)
+        person-size (sizeof person-struct)]
+    (doseq [i (range 3)
+            :let [person {:id (bytes->int (person-pt :id))
+                          :fname (->> (person-pt :fname)
+                                      (remove zero?)
+                                      bytes->char
+                                      (clojure.string/join ""))
+                          :lname (->> (person-pt :lname)
+                                      (remove zero?)
+                                      bytes->char
+                                      (clojure.string/join ""))}]]
+      (prn person)
+      (person-pt + person-size)))
+```

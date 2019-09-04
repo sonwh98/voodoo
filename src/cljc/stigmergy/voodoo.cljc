@@ -143,6 +143,22 @@
     (java.nio.file.Files/readAllBytes path)))
 
 (comment
-  (sizeof [:name :int32
-           :age :int32])
+  (let [buffer (suck "./person.dat")
+        person-struct [:id :int32
+                       :fname [:byte 20]
+                       :lname [:byte 20]]
+        person-pt (pointer person-struct buffer)
+        person-size (sizeof person-struct)]
+    (doseq [i (range 3)
+            :let [person {:id (bytes->int (person-pt :id))
+                          :fname (->> (person-pt :fname)
+                                      (remove zero?)
+                                      bytes->char
+                                      (clojure.string/join ""))
+                          :lname (->> (person-pt :lname)
+                                      (remove zero?)
+                                      bytes->char
+                                      (clojure.string/join ""))}]]
+      (prn person)
+      (person-pt + person-size)))
   )
