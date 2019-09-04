@@ -57,7 +57,7 @@
                                                 field-type-size))]
     field-type-size-offset))
 
-(defn toBytes
+(defn to-bytes
   "convert a seq into a byte-array"
   [a-seq]
   (cond
@@ -71,7 +71,7 @@
     (take num chunk)))
 
 (defn bytes->int [a-seq]
-  (.. (BigInteger. (toBytes a-seq))
+  (.. (BigInteger. (to-bytes a-seq))
       intValue)
   #_(let []
       (+  (bit-shift-left (nth bytes 0) 24)
@@ -80,23 +80,23 @@
           (bit-shift-left (nth  bytes 3) 0))))
 
 (defn bytes->oct [a-seq]
-  (.. (BigInteger. (toBytes a-seq))
+  (.. (BigInteger. (to-bytes a-seq))
       (toString 8)))
 
 (defn bytes->char [a-seq]
   (map #(char %) a-seq))
 
 (defn bytes->str [a-seq]
-  (String. (toBytes a-seq)))
+  (String. (to-bytes a-seq)))
 
 (defn bytes->hex [a-seq]
-  (-> a-seq toBytes Hex/encodeHexString))
+  (-> a-seq to-bytes Hex/encodeHexString))
 
 (defn hex-str->bytes [hex-str]
   (Hex/decodeHex hex-str))
 
 (defn sha1-as-bytes [a-seq]
-  (-> a-seq toBytes DigestUtils/sha1))
+  (-> a-seq to-bytes DigestUtils/sha1))
 
 (defn pointer
   "returns a closure that simulates a C pointer given a struct and a seq of bytes"
