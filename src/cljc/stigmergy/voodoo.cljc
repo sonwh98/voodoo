@@ -45,14 +45,14 @@
                                [field {:type type
                                        :size (sizeof type)}])
                              field-type-pairs)
-        field-type-size-offset (into {} (reduce (fn [acc [field md]]
-                                                  (let [[last-field last-md] (last acc)
-                                                        last-offset (:offset last-md)]
+        field-type-size-offset (into {} (reduce (fn [acc [field type-size]]
+                                                  (let [[last-field last-type-size] (last acc)
+                                                        last-offset (:offset last-type-size)]
                                                     (conj acc (if last-offset
-                                                                (let [size (:size last-md)
+                                                                (let [size (:size last-type-size)
                                                                       offset (+ last-offset size)]
-                                                                  [field (assoc md :offset offset)])
-                                                                [field (assoc md :offset 0)]))))
+                                                                  [field (assoc type-size :offset offset)])
+                                                                [field (assoc type-size :offset 0)]))))
                                                 []
                                                 field-type-size))]
     field-type-size-offset))
