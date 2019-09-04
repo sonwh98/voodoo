@@ -119,7 +119,7 @@
 
   (person-pt + (sizeof person-struct))
   This advances the offset to the next chunk of data containing a person. Therefore, calling
-  (person-pt :id) again will give u the id of the next person.
+  (person-pt :id) again will give the id of the next person.
 
   You can also use field names when doing arithmetic on the 'pointer'
   (person-pt + :id) which is the same as doing (person-pt + (sizeof :int32)) because :id is of type :int32
