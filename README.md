@@ -26,7 +26,7 @@ Compile and execute [writeStruct.c](https://github.com/sonwh98/voodoo/blob/maste
 % ./a.out
 ```
 
-This generates person.dat which contains 3 C structs
+This writes 3 structs into person.dat. The definition of the struct is
 
 ```C
 struct person { 
@@ -41,7 +41,7 @@ Parse person.dat
 ```Clojure
 (let [buffer (suck "./person.dat")
         person-struct [:id :int32
-                       :fname [:byte 20]
+                       :fname [:char 20]
                        :lname [:byte 20]]
         person-pt (pointer person-struct buffer)
         person-size (sizeof person-struct)]

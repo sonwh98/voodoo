@@ -145,7 +145,7 @@
 (comment
   (let [buffer (suck "./person.dat")
         person-struct [:id :int32
-                       :fname [:byte 20]
+                       :fname [:char 20] ;;char and byte are same size so it doesn't matter which you use
                        :lname [:byte 20]]
         person-pt (pointer person-struct buffer)
         person-size (sizeof person-struct)]
