@@ -111,7 +111,7 @@
   (person-pt :lname) ;;bytes corresponding to lname
   )
 
-  :id is the field that is of type :int32 which is a occupies 32 bit or 4 bytes. To access this field,
+  :id is the field that is of type :int32 which occupies 32 bit or 4 bytes. To access this field,
   (person-pt :id) . This gives the raw bytes which you can transform into integer with the function bytes->int.
 
   A pointer keeps track of an internal offset used as a base to calculate the offset of for the fields. You can do
