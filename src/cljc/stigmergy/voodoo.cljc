@@ -18,10 +18,10 @@
                      :int32* 0})
 
 (defn struct?
-  "A struct simulates a C struct with a vector. keywords are used for field names and field types. For example,
+  "A struct simulates a C struct with a vector. A struct describes the binary layout of fields.
+  Keywords are used for field names and field types. For example,
   (struct? [:name [:char 10]
-            :age :int32])
-  "
+            :age :int32])"
   [struct]
   (and (vector? struct) (> (count struct) 2 )))
 
