@@ -92,7 +92,7 @@
 (defn bytes->hex [a-seq]
   (-> a-seq to-bytes Hex/encodeHexString))
 
-(defn hex-str->bytes [hex-str]
+(defn hex->bytes [hex-str]
   (Hex/decodeHex hex-str))
 
 (defn sha1-as-bytes [a-seq]
