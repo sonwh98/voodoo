@@ -136,7 +136,10 @@
           (if (= size 0)
             (let [size (count a-seq)]
               (take-between (+ @offset field-offset) size a-seq))
-            (take-between (+ @offset field-offset) (+ @offset field-offset size) a-seq)))
+            (let [chunk (take-between (+ @offset field-offset) (+ @offset field-offset size) a-seq)]
+              (if (= (count chunk) 1)
+                (first chunk)
+                chunk))))
         (let [+or- arg0
               next-offset (reduce + (map (fn [field-or-offset]
                                            (if (keyword? field-or-offset)
