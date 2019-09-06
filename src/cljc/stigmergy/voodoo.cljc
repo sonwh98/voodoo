@@ -79,9 +79,16 @@
           (bit-shift-left (nth  bytes 2) 8)
           (bit-shift-left (nth  bytes 3) 0))))
 
+(defn int->bytes [an-int]
+  (.. (BigInteger/valueOf an-int) toByteArray))
+
 (defn bytes->oct [a-seq]
   (.. (BigInteger. (to-bytes a-seq))
       (toString 8)))
+
+(defn oct->bytes [an-octal]
+  (.. (BigInteger. an-octal 8)
+      toByteArray))
 
 (defn bytes->char [a-seq]
   (map #(char %) a-seq))
