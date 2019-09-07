@@ -105,18 +105,20 @@
 (defn sha1-as-bytes [a-seq]
   (-> a-seq to-bytes DigestUtils/sha1))
 
-(defn pad-right
-  "right pad a-seq with n number of value"
-  [a-seq n value]
-  (take n (concat a-seq (repeat value))))
-
-(defn pad-left [a-seq n value]
+(defn padding [a-seq n value]
   (let [c (count a-seq)
         how-much-to-pad (- n c)]
     (if (pos? how-much-to-pad)
-      (let [padding (repeat how-much-to-pad value)]
-        (concat padding a-seq))
-      a-seq)))
+      (repeat how-much-to-pad value)
+      '())))
+
+(defn pad-right
+  "right pad a-seq with n number of value"
+  [a-seq n value]
+  (concat a-seq (padding a-seq n value)))
+
+(defn pad-left [a-seq n value]
+  (concat (padding a-seq n value) a-seq))
 
 (defn pointer
   "returns a 'pointer' to the seq of bytes using a struct to define the structure of the seq of bytes.
@@ -210,7 +212,7 @@
       (prn person)
       (person-pt + person-size)))
 
-  (pad-right [1 2 3] 5 0)
+  (pad-right [1 2 3] 6 0)
   (pad-left [1 2 3] 5 0)
 
   )
