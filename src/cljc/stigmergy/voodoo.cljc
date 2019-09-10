@@ -181,7 +181,9 @@
                      "/"
                      fp))
         path (java.nio.file.Paths/get root-dir (into-array (rest paths)))]
-    (java.nio.file.Files/readAllBytes path)))
+    (try
+      (java.nio.file.Files/readAllBytes path)
+      (catch Exception ex nil))))
 
 (comment
   (let [buffer (suck "./person.dat")
