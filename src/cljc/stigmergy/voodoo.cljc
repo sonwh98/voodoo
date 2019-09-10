@@ -57,21 +57,13 @@
                                                 field-type-size))]
     field-type-size-offset))
 
-(defn to-bytes
-  "convert a seq into a byte-array"
-  [a-seq]
-  (cond
-    (sequential? a-seq) (byte-array a-seq)
-    (bytes? a-seq) a-seq
-    :else [a-seq]))
-
 (defn take-between [i j coll]
   (let [chunk (drop i coll)
         num (- j i)]
     (take num chunk)))
 
-(defn bytes->int [a-seq]
-  (.. (BigInteger. (to-bytes a-seq))
+(defn seq->int [a-seq]
+  (.. (BigInteger. (byte-array a-seq))
       intValue)
   #_(let []
       (+  (bit-shift-left (nth bytes 0) 24)
@@ -79,31 +71,31 @@
           (bit-shift-left (nth  bytes 2) 8)
           (bit-shift-left (nth  bytes 3) 0))))
 
-(defn int->bytes [an-int]
-  (.. (BigInteger/valueOf an-int) toByteArray))
+(defn int->seq [an-int]
+  (seq (.. (BigInteger/valueOf an-int) toByteArray)))
 
-(defn bytes->oct [a-seq]
-  (.. (BigInteger. (to-bytes a-seq))
+(defn seq->oct [a-seq]
+  (.. (BigInteger. (byte-array a-seq))
       (toString 8)))
 
-(defn oct->bytes [an-octal]
-  (.. (BigInteger. an-octal 8)
-      toByteArray))
+(defn oct->seq [an-octal]
+  (seq (.. (BigInteger. an-octal 8)
+           toByteArray)))
 
-(defn bytes->char [a-seq]
+(defn seq->char [a-seq]
   (map #(char %) a-seq))
 
-(defn bytes->str [a-seq]
-  (String. (to-bytes a-seq)))
+(defn seq->str [a-seq]
+  (String. (byte-array a-seq)))
 
-(defn bytes->hex [a-seq]
-  (-> a-seq to-bytes Hex/encodeHexString))
+(defn seq->hex [a-seq]
+  (-> a-seq byte-array Hex/encodeHexString))
 
-(defn hex->bytes [hex-str]
-  (Hex/decodeHex hex-str))
+(defn hex->seq [hex-str]
+  (seq (Hex/decodeHex hex-str)))
 
-(defn sha1-as-bytes [a-seq]
-  (-> a-seq to-bytes DigestUtils/sha1))
+(defn sha1 [a-seq]
+  (-> a-seq byte-array DigestUtils/sha1))
 
 (defn padding [a-seq n value]
   (let [c (count a-seq)
@@ -134,7 +126,7 @@
   )
 
   :id is the field that is of type :int32 which occupies 32 bit or 4 bytes. To access this field,
-  (person-pt :id) . This gives the raw bytes which you can transform into integer with the function bytes->int.
+  (person-pt :id) . This gives the raw bytes which you can transform into integer with the function seq->int.
 
   A pointer keeps track of an internal offset used as a base to calculate the offset of for the fields. You can do
   'pointer' arithmetic on this offset. For example,
@@ -200,14 +192,14 @@
         person-pt (pointer person-struct buffer)
         person-count 3]
     (doseq [i (range person-count)
-            :let [person {:id (bytes->int (person-pt :id))
+            :let [person {:id (seq->int (person-pt :id))
                           :fname (->> (person-pt :fname)
                                       (remove zero?)
-                                      bytes->char
+                                      seq->char
                                       (clojure.string/join ""))
                           :lname (->> (person-pt :lname)
                                       (remove zero?)
-                                      bytes->char
+                                      seq->char
                                       (clojure.string/join ""))}]]
       (prn person)
       (person-pt + person-size)))
