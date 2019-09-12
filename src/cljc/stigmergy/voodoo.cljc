@@ -109,7 +109,9 @@
   [a-seq n value]
   (concat a-seq (padding a-seq n value)))
 
-(defn pad-left [a-seq n value]
+(defn pad-left
+  "left pad a-seq with n number of value"
+  [a-seq n value]
   (concat (padding a-seq n value) a-seq))
 
 (defn pointer
