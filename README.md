@@ -21,7 +21,7 @@ Here's an exampe of parsing a git index file in C
 https://github.com/sonwh98/clgit/blob/master/parse_git_index.c
 
 Here is an example parsing a git index file in Clojure using voodoo
-https://github.com/sonwh98/clgit/blob/e64d8efaed1285b172b64f3ef0896e04179b5090/src/cljc/stigmergy/clgit.cljc#L93
+https://github.com/sonwh98/clgit/blob/6546c3295f82ab25ab7f4a2a78447ff91b5ea3f1/src/cljc/stigmergy/clgit.cljc#L126
 
 Compile and execute [writeStruct.c](https://github.com/sonwh98/voodoo/blob/master/src/c/writeStruct.c)
 
