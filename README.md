@@ -57,6 +57,6 @@ Parse person.dat
                                       seq->char
                                       (clojure.string/join ""))}]]
       (prn person)
-      ;;increment pointer by person-size to point to next person-struct in the buffer
+      ;;increment pointer by person-size byes to point to next person-struct in the buffer
       (person-pt + person-size)))
 ```
