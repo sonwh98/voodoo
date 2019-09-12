@@ -175,7 +175,7 @@
     bytes))
 
 (defn suck
-  "like slurp but returns raw bytes"
+  "like slurp but returns byte-array"
   [file-name]
   (let [paths (clojure.string/split file-name #"/")
         root-dir (let [fp (first paths)]
