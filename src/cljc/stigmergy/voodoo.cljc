@@ -58,11 +58,6 @@
                                                 field-type-size))]
     field-type-size-offset))
 
-(defn take-between [i j coll]
-  (let [chunk (drop i coll)
-        num (- j i)]
-    (take num chunk)))
-
 (defn seq->int [a-seq]
   (.. (BigInteger. (byte-array a-seq))
       intValue)
@@ -152,8 +147,8 @@
               size (-> metadata field :size)]
           (if (= size 0)
             (let [size (count a-seq)]
-              (take-between (+ @offset field-offset) size a-seq))
-            (let [chunk (take-between (+ @offset field-offset) (+ @offset field-offset size) a-seq)]
+              (util/take-between (+ @offset field-offset) size a-seq))
+            (let [chunk (util/take-between (+ @offset field-offset) (+ @offset field-offset size) a-seq)]
               (if (= (count chunk) 1)
                 (first chunk)
                 chunk))))
@@ -189,7 +184,7 @@
                                       (remove zero?)
                                       seq->char
                                       (clojure.string/join ""))}]]
-      (prn person)y
+      (prn person)
       (person-pt + person-size)))
   
   (pad-right [1 2 3] 6 0)
