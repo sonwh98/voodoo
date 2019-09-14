@@ -45,12 +45,12 @@ Parse person.dat
 
 ```Clojure
 (let [buffer (util/suck "./person.dat")
-        struct-person [:id :int32
-                       :fname [:char 20] ;;char and byte are same size so it doesn't matter which you use
-                       :lname [:byte 20]]
-        person-size (sizeof struct-person)
-        person-pt (pointer struct-person buffer)
-        person-count 3]
+      struct-person [:id :int32
+                     :fname [:char 20] ;;char and byte are same size so it doesn't matter which you use
+                     :lname [:byte 20]]
+      person-size (sizeof struct-person)
+      person-pt (pointer struct-person buffer)
+      person-count 3]
     (doseq [i (range person-count)
             :let [id (person-pt :id) ;;"dereferncing" id field, in C it would be like personPt->id
                   fname (person-pt :fname)
