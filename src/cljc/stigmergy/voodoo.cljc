@@ -117,12 +117,12 @@
 
 (defn pointer
   "returns a 'pointer' to the seq of bytes using a struct to define the structure of the seq of bytes.
-  For example, suppose the following person-struct:
-  (let [person-struct [:id :int32
+  For example, suppose the following struct-person:
+  (let [struct-person [:id :int32
                        :fname [:char 20]
                        :lname [:byte 20]]
        a-seq-of-bytes ...
-       person-pt (pointer person-struct a-seq-of-bytes)]
+       person-pt (pointer struct-person a-seq-of-bytes)]
   (person-pt :id) ;;bytes corresponding to the id
   (person-pt :fname) ;;bytes corresponding to fname
   (person-pt :lname) ;;bytes corresponding to lname
@@ -131,10 +131,10 @@
   :id is the field that is of type :int32 which occupies 32 bit or 4 bytes. To access this field,
   (person-pt :id) . This gives the raw bytes which you can transform into integer with the function seq->int.
 
-  A pointer keeps track of an internal offset used as a base to calculate the offset of for the fields. You can do
+  A pointer keeps track of an internal offset used as a base to calculate the offset for the fields. You can do
   'pointer' arithmetic on this offset. For example,
 
-  (person-pt + (sizeof person-struct))
+  (person-pt + (sizeof struct-person))
   This advances the offset to the next chunk of data containing a person. Therefore, calling
   (person-pt :id) again will give the id of the next person.
 
