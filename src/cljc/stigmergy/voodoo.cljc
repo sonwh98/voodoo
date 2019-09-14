@@ -167,13 +167,6 @@
           (swap! offset (fn [offset]
                           (+or- offset next-offset))))))))
 
-(defn read-bytes
-  "read num-of-bytes from input-stream and return as a byte-array"
-  [input-stream num-of-bytes]
-  (let [bytes (byte-array num-of-bytes)]
-    (.. input-stream (read bytes))
-    bytes))
-
 (defn suck
   "like slurp but returns byte-array"
   [file-name]
