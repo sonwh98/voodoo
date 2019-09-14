@@ -44,6 +44,8 @@ struct person {
 Parse person.dat 
 
 ```Clojure
+(require '[stigmergy.tily :as util])
+
 (let [buffer (util/suck "./person.dat")
       struct-person [:id :int32
                      :fname [:char 20] ;;char and byte are same size so it doesn't matter which you use
