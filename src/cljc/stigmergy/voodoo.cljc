@@ -189,19 +189,22 @@
 
 (comment
   (let [buffer (suck "./person.dat")
-        person-struct [:id :int32
+        struct-person [:id :int32
                        :fname [:char 20] ;;char and byte are same size so it doesn't matter which you use
                        :lname [:byte 20]]
-        person-size (sizeof person-struct)
-        person-pt (pointer person-struct buffer)
+        person-size (sizeof struct-person)
+        person-pt (pointer struct-person buffer)
         person-count 3]
     (doseq [i (range person-count)
-            :let [person {:id (seq->int (person-pt :id))
-                          :fname (->> (person-pt :fname)
+            :let [id (person-pt :id) ;;"dereferncing" id field, in C it would be like personPt->id
+                  fname (person-pt :fname)
+                  lname (person-pt :lname)
+                  person {:id (seq->int id)
+                          :fname (->> fname
                                       (remove zero?)
                                       seq->char
                                       (clojure.string/join ""))
-                          :lname (->> (person-pt :lname)
+                          :lname (->> lname
                                       (remove zero?)
                                       seq->char
                                       (clojure.string/join ""))}]]
