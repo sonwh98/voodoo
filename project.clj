@@ -3,7 +3,8 @@
   :dependencies [[org.clojure/clojure "1.10.1"]  
                  [org.clojure/clojurescript "1.10.520"]
                  [com.taoensso/timbre "4.10.0"]
-                 [commons-codec/commons-codec "1.13"]]
+                 [commons-codec/commons-codec "1.13"]
+                 [stigmergy/tily "0.1.8-SNAPSHOT"]]
   :plugins [[lein-figwheel "0.5.18"]
             [lein-cljsbuild "1.1.7" :exclusions [[org.clojure/clojure]]]]
 

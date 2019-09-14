@@ -1,4 +1,5 @@
 (ns stigmergy.voodoo
+  (:require [stigmergy.tily :as util])
   (:import [org.apache.commons.codec.binary Hex]
            [org.apache.commons.codec.digest DigestUtils]))
 
@@ -167,21 +168,8 @@
           (swap! offset (fn [offset]
                           (+or- offset next-offset))))))))
 
-(defn suck
-  "like slurp but returns byte-array"
-  [file-name]
-  (let [paths (clojure.string/split file-name #"/")
-        root-dir (let [fp (first paths)]
-                   (if (= "" fp)
-                     "/"
-                     fp))
-        path (java.nio.file.Paths/get root-dir (into-array (rest paths)))]
-    (try
-      (java.nio.file.Files/readAllBytes path)
-      (catch Exception ex nil))))
-
 (comment
-  (let [buffer (suck "./person.dat")
+  (let [buffer (util/suck "./person.dat")
         struct-person [:id :int32
                        :fname [:char 20] ;;char and byte are same size so it doesn't matter which you use
                        :lname [:byte 20]]
@@ -201,9 +189,9 @@
                                       (remove zero?)
                                       seq->char
                                       (clojure.string/join ""))}]]
-      (prn person)
+      (prn person)y
       (person-pt + person-size)))
-
+  
   (pad-right [1 2 3] 6 0)
   (pad-left [1 2 3] 5 0)
 
