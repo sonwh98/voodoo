@@ -84,6 +84,9 @@
 (defn seq->str [a-seq]
   (String. (byte-array a-seq)))
 
+(defn str->seq [a-str]
+  (map byte a-str))
+
 (defn seq->hex [a-seq]
   (-> a-seq byte-array Hex/encodeHexString))
 
