@@ -82,7 +82,8 @@
   (map #(char %) a-seq))
 
 (defn seq->str [a-seq]
-  (String. (byte-array a-seq)))
+  (clojure.string/join "" (map char a-seq))
+  #_(String. (byte-array a-seq)))
 
 (defn str->seq [a-str]
   (map byte a-str))
