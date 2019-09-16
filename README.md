@@ -4,7 +4,7 @@ Clojure/ClojureScript library for parsing binary data as easy as it is in C
 ## Rationale
 Parsing binary bytes of data in Clojure/ClojureScript is a pain in the butt. This library simulates C structs and pointer arithmetic to allow parsing of binary data in a C like way.
 
-[Octet](https://github.com/funcool/octet) is a similar library for parsing binary data but it is more high level. Translating C code for into octet requires more thinking. 
+[Octet](https://github.com/funcool/octet) is a similar library for parsing binary data but it is more high level. Translating C code into octet requires more thinking. 
 Voodoo is design to make it easier to translate C code into Clojure without much cognitive re-mapping.
 
 ## TODO
