@@ -1,19 +1,17 @@
 # voodoo
-Clojure/ClojureScript library for binary data parsing reminiscent of C
+Clojure/ClojureScript library for parsing binary data as easy as it is in C
 
 ## Rationale
 Parsing binary bytes of data in Clojure/ClojureScript is a pain in the butt. This library simulates C structs and pointer arithmetic to allow parsing of binary data in a C like way.
 
-[Octet](https://github.com/funcool/octet) is also a library for binary data manipulation 
-but it is more high level. Translating C code for into octet requires more thinking. Voodoo is design
-to make it easier to translate C code into Clojure without much cognitive re-mapping.
+[Octet](https://github.com/funcool/octet) is a similar library for parsing binary data but it is more high level. Translating C code for into octet requires more thinking. 
+Voodoo is design to make it easier to translate C code into Clojure without much cognitive re-mapping.
 
 ## TODO
 ClojureScript support is pending
 
 ## Seq everywhere
-Voodoo treats byte buffers as seq. There are functions with names starting with seq-> to convert seq of bytes into 
-primitive types and vice versa. For example, seq->int and int->seq
+Voodoo treats byte buffers as seq. There are functions with names starting with seq-> to convert seq of bytes into primitive types and vice versa. For example, seq->int and int->seq
 
 ## Example
 
