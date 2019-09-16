@@ -11,7 +11,7 @@ to make it easier to translate C code into Clojure without much cognitive re-map
 ## TODO
 ClojureScript support is pending
 
-## seq everywhere
+## Seq everywhere
 Voodoo treats byte buffers as seq. There are functions with names starting with seq-> to convert seq of bytes into 
 primitive types and vice versa. For example, seq->int and int->seq
 
@@ -21,7 +21,7 @@ Here's an exampe of parsing a git index file in C
 https://github.com/sonwh98/clgit/blob/master/parse_git_index.c
 
 Here is an example parsing a git index file in Clojure using voodoo
-https://github.com/sonwh98/clgit/blob/cc7a280c2f01a9a959ec262f6379202028d49585/src/cljc/stigmergy/clgit.cljc#L128
+https://github.com/sonwh98/clgit/blob/07f71a29e43ed4536bef5b43ddcc7b3e659509da/src/cljc/stigmergy/clgit.cljc#L133
 
 Here is an example of writing a C struct to a file and reading it from Clojure using Voodoo
 Compile and execute [writeStruct.c](https://github.com/sonwh98/voodoo/blob/master/src/c/writeStruct.c)
@@ -41,7 +41,7 @@ struct person {
 }; 
 ```
 
-Parse person.dat 
+Parse person.dat in Clojure
 
 ```Clojure
 (require '[stigmergy.tily :as util])
@@ -67,5 +67,6 @@ Parse person.dat
                                       seq->char
                                       (clojure.string/join ""))}]]
       (prn person)
-      (person-pt + person-size)))
+      (person-pt + person-size) ;;move pointer to next person block of memory
+      ))
 ```
