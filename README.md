@@ -67,6 +67,6 @@ Parse person.dat in Clojure
                                       seq->char
                                       (clojure.string/join ""))}]]
       (prn person)
-      (person-pt + person-size) ;;move pointer to next person block of memory
+      (person-pt + person-size) ;;move pointer to next chunk of data containing a person
       ))
 ```
