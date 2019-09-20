@@ -88,6 +88,13 @@
 (defn str->seq [a-str]
   (map byte a-str))
 
+(defn seq->byte-array [a-seq]
+  (cond
+    (bytes? a-seq) a-seq
+    (string? a-seq) (-> a-seq str->seq byte-array)
+    (sequential? a-seq) (byte-array a-seq)
+    :else (byte-array [a-seq])))
+
 (defn seq->hex [a-seq]
   (-> a-seq byte-array Hex/encodeHexString))
 
