@@ -11,7 +11,7 @@ Voodoo is design to make it easier to translate C code into Clojure without much
 ClojureScript support is pending
 
 ## Sequential everywhere
-Voodoo treats byte buffers an Squential. There are functions with names starting with seq-> to convert sequential of bytes into primitive types and vice versa. For example, seq->int and int->seq
+Voodoo treats byte buffers as squentials. There are functions with names starting with seq-> to convert sequential of bytes into primitive types and vice versa. For example, seq->int and int->seq
 
 ## Example
 
