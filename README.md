@@ -57,10 +57,8 @@ Parse person.dat in Clojure
                   lname (person-pt :lname)
                   person {:id (seq->int id)
                           :fname (->> fname
-                                      (remove zero?)
                                       seq->str)
                           :lname (->> lname
-                                      (remove zero?)
                                       seq->str)}]]
       (prn person)
       (person-pt + person-size)))

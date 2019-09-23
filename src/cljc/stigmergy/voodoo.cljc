@@ -82,11 +82,12 @@
   (map #(char %) a-seq))
 
 (defn seq->str [a-seq]
-  (clojure.string/join "" (map (fn [a]
-                                 (char (if (neg? a)
-                                         (* -1 a)
-                                         a)))
-                               a-seq))
+  (->> a-seq (remove zero?)
+       (map (fn [a]
+              (char (if (neg? a)
+                      (- a)
+                      a))))
+       (clojure.string/join ""))
   #_(String. (byte-array a-seq)))
 
 (defn str->seq [a-str]
@@ -192,10 +193,8 @@
                   lname (person-pt :lname)
                   person {:id (seq->int id)
                           :fname (->> fname
-                                      (remove zero?)
                                       seq->str)
                           :lname (->> lname
-                                      (remove zero?)
                                       seq->str)}]]
       (prn person)
       (person-pt + person-size)))
