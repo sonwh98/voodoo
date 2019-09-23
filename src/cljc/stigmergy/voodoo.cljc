@@ -82,7 +82,11 @@
   (map #(char %) a-seq))
 
 (defn seq->str [a-seq]
-  (clojure.string/join "" (map char a-seq))
+  (clojure.string/join "" (map (fn [a]
+                                 (char (if (neg? a)
+                                         (* -1 a)
+                                         a)))
+                               a-seq))
   #_(String. (byte-array a-seq)))
 
 (defn str->seq [a-str]
@@ -175,7 +179,7 @@
                           (+or- offset next-offset))))))))
 
 (comment
-  (let [buffer (util/suck "./person.dat")
+  (let [buffer (util/suck "./person.dat") ;;suck in raw bytes
         struct-person [:id :int32
                        :fname [:char 20] ;;char and byte are same size so it doesn't matter which you use
                        :lname [:byte 20]]
@@ -189,12 +193,10 @@
                   person {:id (seq->int id)
                           :fname (->> fname
                                       (remove zero?)
-                                      seq->char
-                                      (clojure.string/join ""))
+                                      seq->str)
                           :lname (->> lname
                                       (remove zero?)
-                                      seq->char
-                                      (clojure.string/join ""))}]]
+                                      seq->str)}]]
       (prn person)
       (person-pt + person-size)))
   

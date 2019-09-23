@@ -44,13 +44,13 @@ Parse person.dat in Clojure
 ```Clojure
 (require '[stigmergy.tily :as util])
 
-(let [buffer (util/suck "./person.dat")
-      struct-person [:id :int32
-                     :fname [:char 20] ;;char and byte are same size so it doesn't matter which you use
-                     :lname [:byte 20]]
-      person-size (sizeof struct-person)
-      person-pt (pointer struct-person buffer)
-      person-count 3]
+(let [buffer (util/suck "./person.dat") ;;suck in raw bytes
+        struct-person [:id :int32
+                       :fname [:char 20] ;;char and byte are same size so it doesn't matter which you use
+                       :lname [:byte 20]]
+        person-size (sizeof struct-person)
+        person-pt (pointer struct-person buffer)
+        person-count 3]
     (doseq [i (range person-count)
             :let [id (person-pt :id) ;;"dereferncing" id field, in C it would be like personPt->id
                   fname (person-pt :fname)
@@ -58,13 +58,11 @@ Parse person.dat in Clojure
                   person {:id (seq->int id)
                           :fname (->> fname
                                       (remove zero?)
-                                      seq->char
-                                      (clojure.string/join ""))
+                                      seq->str)
                           :lname (->> lname
                                       (remove zero?)
-                                      seq->char
-                                      (clojure.string/join ""))}]]
+                                      seq->str)}]]
       (prn person)
-      (person-pt + person-size) ;;move pointer to next chunk of data containing a person
-      ))
+      (person-pt + person-size)))
+      
 ```
