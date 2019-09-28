@@ -81,7 +81,10 @@
 (defn seq->char
   "convert every element in a-seq into a char"
   [a-seq]
-  (map char a-seq))
+  (map #(if (neg? %)
+          (char (- %))
+          (char %))
+       a-seq))
 
 (defn remove-zero
   "remove zero (aka null char) from a-seq"
@@ -219,4 +222,5 @@
 
   (number? \a)
   (seq->str a)
+  (seq->char '(100 0 -1))
   )
