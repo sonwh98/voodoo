@@ -78,15 +78,24 @@
   (seq (.. (BigInteger. an-octal 8)
            toByteArray)))
 
-(defn seq->char [a-seq]
-  (map #(char %) a-seq))
+(defn seq->char
+  "convert every element in a-seq into a char"
+  [a-seq]
+  (map char a-seq))
+
+(defn remove-zero
+  "remove zero (aka null char) from a-seq"
+  [a-seq]
+  (remove (fn [a]
+            (if (number? a)
+              (zero? a)
+              false))
+          a-seq))
 
 (defn seq->str [a-seq]
-  (->> a-seq (remove zero?)
-       (map (fn [a]
-              (char (if (neg? a)
-                      (- a)
-                      a))))
+  (->> a-seq
+       remove-zero
+       seq->char
        (clojure.string/join ""))
   #_(String. (byte-array a-seq)))
 
@@ -201,5 +210,13 @@
   
   (pad-right [1 2 3] 6 0)
   (pad-left [1 2 3] 5 0)
+  (let [two (take 2 "abcdefg")]
+    (seq->str two)
+    )
 
+  (def a '(\a \b))
+
+
+  (number? \a)
+  (seq->str a)
   )
