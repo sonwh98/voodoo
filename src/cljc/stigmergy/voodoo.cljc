@@ -96,9 +96,7 @@
           a-seq))
 
 (defn seq->str
-  "converts first block of non-null characters to string. For example,
-   (= (seq->str '(\a \b \c 0 \1 \2 \3))
-      \"abc\""
+  "converts first block of non-null characters to string."
   [a-seq]
   (let [null 0
         i (util/index-of a-seq null)
