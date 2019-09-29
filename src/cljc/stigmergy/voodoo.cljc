@@ -81,7 +81,7 @@
 (defn seq->char
   "convert every element in a-seq into a char"
   [a-seq]
-  (map #(if (neg? %)
+  (map #(if (and (number? %) (neg? %))
           (char (- %))
           (char %))
        a-seq))
@@ -95,11 +95,19 @@
               false))
           a-seq))
 
-(defn seq->str [a-seq]
-  (->> a-seq
-       remove-zero
-       seq->char
-       (clojure.string/join ""))
+(defn seq->str
+  "converts first block of non-null characters to string. For example,
+   (= (seq->str '(\a \b \c 0 \1 \2 \3))
+      \"abc\""
+  [a-seq]
+  (let [null 0
+        i (util/index-of a-seq null)
+        a-seq  (if i
+                 (take i a-seq)
+                 a-seq)]
+    (->> a-seq
+         seq->char
+         (clojure.string/join "")))
   #_(String. (byte-array a-seq)))
 
 (defn str->seq [a-str]
@@ -217,7 +225,7 @@
     (seq->str two)
     )
 
-  (def a '(\a \b))
+  (def a '(\a \b \1 \c 0 \1 \2 \3))
 
 
   (number? \a)
