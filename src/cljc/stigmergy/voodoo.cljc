@@ -225,7 +225,7 @@
     (seq->str two)
     )
 
-  (def a '(\a \b \1 \c 0 \1 \2 \3))
+  (def a '(\a \b \1 32 \c 0 \1 \2 \3))
 
 
   (number? \a)
