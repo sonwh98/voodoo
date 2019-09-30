@@ -78,17 +78,21 @@
   (seq (.. (BigInteger. an-octal 8)
            toByteArray)))
 
+(defn in-char-range? [v]
+  (and (int? v)
+       (>= v 0)
+       (< v (int Character/MAX_VALUE))))
+
 (defn seq->char-seq
   "convert every element in a-seq into a char. if value x is not in range  0<x<Character/MAX_VALUE,
   replace value with question mark character."
   [a-seq]
-  (map #(let [in-range? (and (int? %)
-                             (>= % 0)
-                             (< % (int Character/MAX_VALUE)))]
-          (if in-range? 
-            (char %)
-            (let [question 63]
-              (char question))))
+  (map #(let []
+          (cond
+            (char? %) (char %)
+            (in-char-range? %) (char %)
+            :else (let [question 63]
+                    (char question))))
        a-seq))
 
 (defn char-seq->str [char-seq]
