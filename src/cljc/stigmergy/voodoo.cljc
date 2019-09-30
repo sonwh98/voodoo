@@ -78,7 +78,7 @@
   (seq (.. (BigInteger. an-octal 8)
            toByteArray)))
 
-(defn seq->char
+(defn seq->char-seq
   "convert every element in a-seq into a char"
   [a-seq]
   (map #(if (and (number? %) (neg? %))
@@ -95,6 +95,9 @@
               false))
           a-seq))
 
+(defn char-seq->str [char-seq]
+  (clojure.string/join "" char-seq))
+
 (defn seq->str
   "converts first block of non-null characters to string."
   [a-seq]
@@ -104,7 +107,7 @@
                  (take i a-seq)
                  a-seq)]
     (->> a-seq
-         seq->char
+         seq->char-seq
          (clojure.string/join "")))
   #_(String. (byte-array a-seq)))
 
@@ -197,6 +200,8 @@
           (swap! offset (fn [offset]
                           (+or- offset next-offset))))))))
 
+
+
 (comment
   (let [buffer (util/suck "./person.dat") ;;suck in raw bytes
         struct-person [:id :int32
@@ -228,5 +233,5 @@
 
   (number? \a)
   (seq->str a)
-  (seq->char '(100 0 -1))
+  (seq->char-seq '(100 0 -1))
   )
