@@ -16,10 +16,10 @@ Voodoo treats byte buffers as squentials. There are functions with names startin
 ## Example
 
 Here's an exampe of parsing a git index file in C
-https://github.com/sonwh98/clgit/blob/master/parse_git_index.c
+https://github.com/sonwh98/agit/blob/master/parse_git_index.c
 
 Here is an example parsing a git index file in Clojure using voodoo
-https://github.com/sonwh98/clgit/blob/07f71a29e43ed4536bef5b43ddcc7b3e659509da/src/cljc/stigmergy/clgit.cljc#L133
+https://github.com/sonwh98/agit/blob/3645c0fe81c330515718aeda70f4213dbd58af7b/src/cljc/stigmergy/agit.cljc#L194
 
 Here is an example of writing a C struct to a file and reading it from Clojure using Voodoo
 Compile and execute [writeStruct.c](https://github.com/sonwh98/voodoo/blob/master/src/c/writeStruct.c)
