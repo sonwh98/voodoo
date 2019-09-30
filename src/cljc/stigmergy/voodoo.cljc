@@ -79,11 +79,13 @@
            toByteArray)))
 
 (defn seq->char-seq
-  "convert every element in a-seq into a char"
+  "convert every element in a-seq into a char. if value x is not in range  0<x<Character/MAX_VALUE,
+  replace value with question mark character."
   [a-seq]
-  (map #(if (and (number? %) (neg? %))
-          (char (- %))
-          (char %))
+  (map #(if (and (number? %) (< % Character/MAX_VALUE))
+          (char %)
+          (let [question 63]
+            (char question)))
        a-seq))
 
 (defn char-seq->str [char-seq]
