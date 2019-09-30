@@ -84,7 +84,7 @@
   [a-seq]
   (map #(let [in-range? (and (int? %)
                              (>= % 0)
-                             (< % Character/MAX_VALUE))]
+                             (< % (int Character/MAX_VALUE)))]
           (if in-range? 
             (char %)
             (let [question 63]
@@ -240,5 +240,5 @@
 
   (number? \a)
   (seq->str a)
-  (seq->char-seq '(100 0 -1))
+  (seq->char-seq '(100 0 0))
   )
