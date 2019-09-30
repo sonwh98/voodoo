@@ -86,15 +86,6 @@
           (char %))
        a-seq))
 
-(defn remove-zero
-  "remove zero (aka null char) from a-seq"
-  [a-seq]
-  (remove (fn [a]
-            (if (number? a)
-              (zero? a)
-              false))
-          a-seq))
-
 (defn char-seq->str [char-seq]
   (clojure.string/join "" char-seq))
 
@@ -108,8 +99,19 @@
                  a-seq)]
     (->> a-seq
          seq->char-seq
-         (clojure.string/join "")))
+         char-seq->str))
   #_(String. (byte-array a-seq)))
+
+(defn remove-zero
+  "remove zero (aka null char) from a-seq"
+  [a-seq]
+  (remove (fn [a]
+            (if (number? a)
+              (zero? a)
+              false))
+          a-seq))
+
+
 
 (defn str->seq [a-str]
   (map byte a-str))
