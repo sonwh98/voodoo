@@ -89,7 +89,7 @@
   [a-seq]
   (map #(let []
           (cond
-            (char? %) (char %)
+            (char? %) %
             (in-char-range? %) (char %)
             :else (let [question 63]
                     (char question))))
