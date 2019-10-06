@@ -87,12 +87,11 @@
   "convert every element in a-seq into a char. if value x is not in range  0<x<Character/MAX_VALUE,
   replace value with question mark character."
   [a-seq]
-  (map #(let []
-          (cond
-            (char? %) %
-            (in-char-range? %) (char %)
-            :else (let [question 63]
-                    (char question))))
+  (map #(cond
+          (char? %) %
+          (in-char-range? %) (char %)
+          :else (let [question 63]
+                  (char question)))
        a-seq))
 
 (defn char-seq->str [char-seq]
