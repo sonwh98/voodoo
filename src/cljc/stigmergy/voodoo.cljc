@@ -67,14 +67,20 @@
           (bit-shift-left (nth  bytes 2) 8)
           (bit-shift-left (nth  bytes 3) 0))))
 
-(defn int->seq [an-int]
+(defn int->seq
+  "convert an int into a seq of bytes"
+  [an-int]
   (seq (.. (BigInteger/valueOf an-int) toByteArray)))
 
-(defn seq->oct [a-seq]
+(defn seq->oct
+  "convert a seq of bytes into octal string"
+  [a-seq]
   (.. (BigInteger. (byte-array a-seq))
       (toString 8)))
 
-(defn oct->seq [an-octal]
+(defn oct->seq
+  "convert octal string into seq of bytes"
+  [an-octal]
   (seq (.. (BigInteger. an-octal 8)
            toByteArray)))
 
@@ -94,7 +100,9 @@
                   (char question)))
        a-seq))
 
-(defn char-seq->str [char-seq]
+(defn char-seq->str
+  "convert a seq of char into a string"
+  [char-seq]
   (clojure.string/join "" char-seq))
 
 (defn seq->str
@@ -119,9 +127,9 @@
               false))
           a-seq))
 
-
-
-(defn str->seq [a-str]
+(defn str->seq
+  "convert a string into a seq of bytes"
+  [a-str]
   (map byte a-str))
 
 (defn seq->byte-array [a-seq]
@@ -209,8 +217,6 @@
                                          args))]
           (swap! offset (fn [offset]
                           (+or- offset next-offset))))))))
-
-
 
 (comment
   (let [buffer (util/suck "./person.dat") ;;suck in raw bytes
